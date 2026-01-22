@@ -1,0 +1,180 @@
+:root {
+    --primary-glow: #ffa244;
+    --secondary-glow: #ffb255;
+    --bg-dark: #fafafa;
+    --card-bg: #fafafa;
+}
+
+body { 
+    background-color: var(--bg-dark); 
+    color: #fafafa; 
+    font-family: 'JetBrains Mono', monospace;
+    background-image: radial-gradient(circle at 50% 50%, #fafafa 0%, #d4d4d4 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    z-index: 0;
+}
+
+.app-title{
+    font-family: 'segoe UI', sans-serif;
+    font-weight: bold;
+    color: #f29225;
+    text-align: center;
+    letter-spacing: 4px;
+    text-shadow: 0 0 10px var(--secondary-glow);
+    text-transform: uppercase;
+    z-index: 1;
+}
+
+h1 { 
+    color:#ea7d00 !important;
+    font-family: 'Orbitron', sans-serif; 
+    letter-spacing: 4px;
+    text-shadow: 0 0 10px var(--secondary-glow);
+}
+
+.card { 
+    background-color: var(--card-bg); 
+    border: 1px solid #fafafa; 
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.form-label { 
+    font-weight: bold; 
+    color: var(--secondary-glow); 
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.form-control, .form-select {
+    background-color: #1c1c1c !important;
+    border: 1px solid #fafafa !important;
+    color: #fafafa !important;
+    border-radius: 8px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-glow) !important;
+    box-shadow: 0 0 8px var(--primary-glow);
+}
+
+.btn-primary { 
+    background: linear-gradient(45deg, #ea7d00, #ffc400); 
+    border: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-primary:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 5px 15px rgba(255, 164, 37, 0.638); 
+}
+
+.result-container {
+    position: relative;
+    margin-top: 20px;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.result-box { 
+    background: #efefef; 
+    padding: 20px; 
+    border-radius: 10px; 
+    border: 1px dashed var(--secondary-glow); 
+    min-height: 80px; 
+    word-wrap: break-word;
+    font-size: 1.1rem;
+    color: #ffc400;
+    transition: all 0.3s ease;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 5px 15px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #555;
+}
+
+.author-text {
+    font-size: 0.85rem;
+    color: #555;
+    letter-spacing: 1px;
+}
+
+
+.Elysia-box{
+    position: relative;
+    z-index: -1;
+}
+#Elysia{
+    display: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -500px;
+    margin-left: 100px;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.Kevin-box{
+    position: relative;
+    z-index: -1
+}
+#Kevin_Kaslana{
+    display: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -200px;
+    margin-left: 200px;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.Aponia{
+    width: 120px;
+    opacity: 0;
+    animation: fadeIn 1.2s ease forwards;
+}
+
+.Aponia-box{
+    display: flex;
+    margin-top: -400px;
+    margin-left: -90px;
+}
+
+.Eden{
+    width: 120px;
+    opacity: 0;
+    animation: fadeIn 1.2s ease forwards;
+}
+
+.Eden-box{
+    display: flex;
+    margin-top: -800px;
+    margin-left: -100px;
+}
+
+.fade-in {
+    animation: fadeIn 0.8s ease-in;
+}
+
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
