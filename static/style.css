@@ -12,22 +12,22 @@ body {
     background-image: radial-gradient(circle at 50% 50%, #fafafa 0%, #d4d4d4 100%);
     min-height: 100vh;
     overflow-x: hidden;
-    z-index: 0;
+    z-index: 100;
 }
 
 .app-title{
     font-family: 'segoe UI', sans-serif;
     font-weight: bold;
-    color: #f29225;
+    color: #efefef;
     text-align: center;
     letter-spacing: 4px;
     text-shadow: 0 0 10px var(--secondary-glow);
     text-transform: uppercase;
-    z-index: 1;
+    z-index: 100;
 }
 
 h1 { 
-    color:#ea7d00 !important;
+    color:#f0f0f0 !important;
     font-family: 'Orbitron', sans-serif; 
     letter-spacing: 4px;
     text-shadow: 0 0 10px var(--secondary-glow);
@@ -38,6 +38,7 @@ h1 {
     border: 1px solid #fafafa; 
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 100;
 }
 
 .form-label { 
@@ -83,7 +84,7 @@ h1 {
     justify-content: center;
     align-items: center;
     color: white;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.4); /* Optional: dark overlay for readability */
 }
 
 .result-box { 
@@ -111,68 +112,236 @@ h1 {
 
 .author-text {
     font-size: 0.85rem;
-    color: #555;
+    color: #f1f1f1;
     letter-spacing: 1px;
 }
 
 
-.Elysia-box{
+.heading {
     position: relative;
-    z-index: -1;
-}
-#Elysia{
-    display: fixed;
-    top: 50%;
-    left: 50%;
-    margin-top: -500px;
-    margin-left: 100px;
-    transform: translate(-50%, -50%);
-    z-index: -1;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: transparent; /* sembunyikan teks asli */
+    font-size: 3rem; /* sesuaikan ukuran judul */
 }
 
-.Kevin-box{
-    position: relative;
-    z-index: -1
-}
-#Kevin_Kaslana{
-    display: fixed;
-    top: 50%;
-    left: 50%;
-    margin-top: -200px;
-    margin-left: 200px;
-    transform: translate(-50%, -50%);
-    z-index: -1;
-}
-
-.Aponia{
-    width: 120px;
+/* layer glitch merah gelap */
+.app-title::before {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: #7a0000;
     opacity: 0;
-    animation: fadeIn 1.2s ease forwards;
 }
 
-.Aponia-box{
-    display: flex;
-    margin-top: -400px;
-    margin-left: -90px;
-}
-
-.Eden{
-    width: 120px;
+/* layer glitch hitam */
+.app-title::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: #000;
     opacity: 0;
-    animation: fadeIn 1.2s ease forwards;
 }
 
-.Eden-box{
+/* animasi glitch utama */
+.app-title {
+    animation: glitch-cycle 4s infinite;
+}
+
+@keyframes glitch-cycle {
+    0%, 92%, 100% { transform: none; }
+    93% { transform: translate(1px, -1px); }
+    94% { transform: translate(-1px, 1px); }
+    95% { transform: none; }
+}
+
+/* animasi kotak glitch untuk before & after */
+.app-title::before,
+.app-title::after {
+    animation: glitch-square 4s infinite;
+}
+
+@keyframes glitch-square {
+    0%, 88%, 100% {
+        opacity: 0;
+        clip-path: inset(0 0 0 0);
+    }
+    89% {
+        opacity: 1;
+        clip-path: inset(20% 60% 55% 5%);
+    }
+    90% {
+        clip-path: inset(50% 20% 20% 40%);
+    }
+    91% {
+        clip-path: inset(10% 35% 65% 30%);
+    }
+    92% {
+        opacity: 0;
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+
+
+
+.character {
+    position: fixed;
+    opacity: 0;
+    animation: fadeSlideIn 1.2s ease forwards;
+    filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6));
+    z-index: 1;
+}
+.character2 {
+    position: fixed;
+    opacity: 0;
+    animation: fadeSlideOut 1.2s ease forwards;
+    filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6));
+    z-index: 1;
+}
+
+.char-link {
+    position: fixed;
+    display: inline-block;
+    transition: transform 0.35s ease;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.char-link:hover {
+    transform: translateY(-12px);
+}
+
+.char-link:hover .character {
+    filter:
+        drop-shadow(0 10px 20px rgba(0,0,0,0.6))
+        drop-shadow(0 0 18px rgba(255, 244, 231, 0.85));
+}
+
+.kevin-box{
+    top: 30%;
+    left: 0%;
+    z-index: 13;
+}
+.kevin {
+    width: 250px;
+    animation-delay: 0.9s;
+}
+
+.phainon-box{
+    top: -15%;
+    right: 28%;
+    z-index: 12;
+}
+.phainon {
+    width: 800px;
+    animation-delay: 0.9s;
+}
+
+
+.sound-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
     display: flex;
-    margin-top: -800px;
-    margin-left: -100px;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0,0,0,0.55);
+    padding: 10px 14px;
+    border-radius: 30px;
+    backdrop-filter: blur(6px);
+    z-index: 999;
+}
+
+.sound-btn {
+    border: none;
+    background: none;
+    color: #ffc400;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.sound-btn:hover {
+    transform: scale(1.1);
+}
+
+.sound-panel input[type="range"] {
+    width: 90px;
+    accent-color: #ffc400;
+}
+
+.music-marquee {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+    z-index: 999;
+}
+
+.marquee-text {
+    white-space: nowrap;
+    display: inline-block;
+    padding-left: 100%;
+    font-size: 14px;
+    color: #ffc400;
+    letter-spacing: 2px;
+    animation: marquee 18s linear infinite;
+}
+
+.music-marquee:hover .marquee-text {
+    animation-play-state: paused;
+}
+
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+
+#inputText::placeholder {
+    color: #8e8e8e !important;
+}
+
+#inputText::-webkit-input-placeholder {
+    color: #e0e0e0 !important;
+}
+#inputText::-ms-input-placeholder {
+    color: #e0e0e0 !important;
 }
 
 .fade-in {
     animation: fadeIn 0.8s ease-in;
 }
 
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
 
+@keyframes fadeSlideOut {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
