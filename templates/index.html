@@ -89,36 +89,51 @@ window.addEventListener("load", () => {
 </div>
 
 <script>
-window.addEventListener("load", () => {
-    const preloader = document.getElementById("preloader");
-    const startOverlay = document.getElementById("start-overlay");
+document.addEventListener("DOMContentLoaded", () => {
     const audio = document.getElementById("bg-music");
-    const video = document.getElementById("bg-video");
+    const toggle = document.getElementById("musicToggle");
+    const marqueeText = toggle.querySelector(".marquee-text");
 
-    // 1. Sembunyikan preloader dulu
-    preloader.style.opacity = "0";
-    setTimeout(() => preloader.style.display = "none", 600);
+    let isPlaying = false;
 
-    // 2. TUNGGU user klik "start experience"
-    startOverlay.addEventListener("click", async () => {
-        // gesture valid → audio AMAN
+    function updateUI() {
+        marqueeText.textContent = isPlaying
+            ? "⏸ PAUSE MUSIC — MOON HALO • HONKAI IMPACT 3RD •"
+            : "▶ PLAY MUSIC — MOON HALO • HONKAI IMPACT 3RD •";
+            marqueeText.style.animationPlayState = isPlaying ? "running" : "paused";
+
+    }
+
+    // kontrol dari marquee
+    toggle.addEventListener("click", async () => {
+        if (!isPlaying) {
+            try {
+                await window.startMusic();
+                isPlaying = true;
+            } catch (e) {
+                console.warn("Audio blocked:", e);
+            }
+        } else {
+            audio.pause();
+            isPlaying = false;
+        }
+        updateUI();
+    });
+
+    // expose function supaya start-overlay bisa pakai
+    window.startMusic = async () => {
         audio.volume = 0;
-        await audio.play();
+        await window.startMusic();
+        isPlaying = true;
+        updateUI();
 
-        // fade-in audio 5 detik
         let vol = 0;
         const fade = setInterval(() => {
             vol += 0.02;
             audio.volume = Math.min(vol, 1);
             if (vol >= 1) clearInterval(fade);
         }, 100);
-
-        // swipe overlay ke atas
-        startOverlay.classList.add("hide");
-
-        // munculkan video halus
-        video.classList.add("loaded");
-    }, { once: true });
+    };
 });
 </script>
 
