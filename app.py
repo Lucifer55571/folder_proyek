@@ -127,3 +127,6 @@ def process():
     else:
         res = decrypt_logic(text, mode, enigma_p)
     return jsonify({"result": res})
+
+if __name__ == "__main__":
+    app.run(debug=True)

@@ -333,13 +333,13 @@ h1 {
     z-index: -1;
 
     opacity: 0;                 /* Mulai transparan */
-    filter: blur(8px);          /* Sedikit blur untuk smooth load */
+    filter: blur(8px);
     transition: opacity 2s ease-in-out, filter 2s ease-in-out; /* transisi halus */
 }
 
 #bg-video.loaded {
     opacity: 1;                 /* Jadi visible */
-    filter: blur(0);            /* Blur hilang */
+    filter: blur(0);
 }
 
 #preloader {
