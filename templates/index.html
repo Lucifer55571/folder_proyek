@@ -67,12 +67,13 @@ window.addEventListener("load", () => {
 <body>
 
 <div id="preloader">
+    <p class="hint">Klik di mana saja untuk memulai pengalaman</p>
     <div class="spinner"></div>
     <p class="FLAME-CHASERS CRYPTOGRAPHY"> Loading Flame-Chasers Cryptography...</p>
 </div>
 
 
-<audio id="bg-music" loop muted preload="auto">
+<audio id="bg-music" loop preload="auto">
     <source src="{{ url_for('static', filename='sources/Moon_Halo.mp3') }}" type="audio/mpeg">
 </audio>
 
@@ -87,50 +88,44 @@ document.addEventListener("DOMContentLoaded", () => {
     const audio = document.getElementById("bg-music");
     const marquee = document.getElementById("musicToggle");
     const text = marquee.querySelector(".marquee-text");
+    const preloader = document.getElementById("preloader");
 
-    // === AUTOPLAY MUTED (LEGAL) ===
-    audio.volume = 0;
-    audio.play().catch(() => {});
+    let isPlaying = false;
 
-    let isPlaying = true;
-    let unlocked = false;
+    function startAudio() {
+        audio.volume = 0;
+        audio.play().then(() => {
+            isPlaying = true;
+            text.textContent = "⏸ NOW PLAYING — MOON HALO • HONKAI IMPACT 3RD •";
 
-    // === UNLOCK + FADE IN VOLUME ===
-    function unlockAudio() {
-        if (unlocked) return;
-        unlocked = true;
+            // fade-in volume 5 detik
+            let vol = 0;
+            const fade = setInterval(() => {
+                vol += 0.02;
+                audio.volume = Math.min(vol, 1);
+                if (vol >= 1) clearInterval(fade);
+            }, 100);
+        });
 
-        audio.muted = false;
-
-        let vol = 0;
-        const fade = setInterval(() => {
-            vol += 0.02; // ~5 detik
-            if (vol >= 1) {
-                audio.volume = 1;
-                clearInterval(fade);
-            } else {
-                audio.volume = vol;
-            }
-        }, 100);
-
-        text.textContent = "⏸ NOW PLAYING — MOON HALO • HONKAI IMPACT 3RD •";
+        // lepas listener supaya gak double
+        document.removeEventListener("click", startAudio);
     }
 
-    // Gesture apa pun
-    ["click", "scroll", "mousemove", "touchstart"].forEach(evt => {
-        document.addEventListener(evt, unlockAudio, { once: true });
-    });
+    // SATU gesture eksplisit
+    document.addEventListener("click", startAudio, { once: true });
 
-    // === MANUAL TOGGLE (marquee tetap berfungsi) ===
+    // manual control tetap
     marquee.addEventListener("click", () => {
-        if (audio.paused) {
+        if (!isPlaying) {
             audio.play();
-            text.textContent = "⏸ NOW PLAYING — MOON HALO • HONKAI IMPACT 3RD •";
             isPlaying = true;
+            text.textContent = "⏸ NOW PLAYING — MOON HALO • HONKAI IMPACT 3RD •";
+            
         } else {
             audio.pause();
-            text.textContent = "▶ PLAY MUSIC — MOON HALO • HONKAI IMPACT 3RD •";
             isPlaying = false;
+            text.textContent = "▶ PLAY MUSIC — MOON HALO • HONKAI IMPACT 3RD •";
+
         }
     });
 });
