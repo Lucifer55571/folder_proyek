@@ -31,7 +31,7 @@
     <title>Flame-Chasers Cryptography</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-        <link rel="icon" href="{{ url_for('static', filename='sources/Kevin-icon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='sources/Kevin-icon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
@@ -72,7 +72,7 @@ window.addEventListener("load", () => {
 </div>
 
 
-<audio id="bg-music" loop preload="auto">
+<audio id="bg-music" loop muted preload="auto">
     <source src="{{ url_for('static', filename='sources/Moon_Halo.mp3') }}" type="audio/mpeg">
 </audio>
 
@@ -88,24 +88,54 @@ document.addEventListener("DOMContentLoaded", () => {
     const marquee = document.getElementById("musicToggle");
     const text = marquee.querySelector(".marquee-text");
 
-    let isPlaying = false;
+    // === AUTOPLAY MUTED (LEGAL) ===
+    audio.volume = 0;
+    audio.play().catch(() => {});
 
-    marquee.addEventListener("click", async () => {
-        try {
-            if (!isPlaying) {
-                await audio.play();
-                text.textContent = "⏸ NOW PLAYING — MOON HALO • HONKAI IMPACT 3RD •";
+    let isPlaying = true;
+    let unlocked = false;
+
+    // === UNLOCK + FADE IN VOLUME ===
+    function unlockAudio() {
+        if (unlocked) return;
+        unlocked = true;
+
+        audio.muted = false;
+
+        let vol = 0;
+        const fade = setInterval(() => {
+            vol += 0.02; // ~5 detik
+            if (vol >= 1) {
+                audio.volume = 1;
+                clearInterval(fade);
             } else {
-                audio.pause();
-                text.textContent = "▶ PLAY MUSIC — MOON HALO • HONKAI IMPACT 3RD •";
+                audio.volume = vol;
             }
-            isPlaying = !isPlaying;
-        } catch (e) {
-            alert("Klik sekali lagi untuk mengaktifkan audio");
+        }, 100);
+
+        text.textContent = "⏸ NOW PLAYING — MOON HALO • HONKAI IMPACT 3RD •";
+    }
+
+    // Gesture apa pun
+    ["click", "scroll", "mousemove", "touchstart"].forEach(evt => {
+        document.addEventListener(evt, unlockAudio, { once: true });
+    });
+
+    // === MANUAL TOGGLE (marquee tetap berfungsi) ===
+    marquee.addEventListener("click", () => {
+        if (audio.paused) {
+            audio.play();
+            text.textContent = "⏸ NOW PLAYING — MOON HALO • HONKAI IMPACT 3RD •";
+            isPlaying = true;
+        } else {
+            audio.pause();
+            text.textContent = "▶ PLAY MUSIC — MOON HALO • HONKAI IMPACT 3RD •";
+            isPlaying = false;
         }
     });
 });
 </script>
+
 
     <video autoplay muted loop playsinline id="bg-video">
         <source src="static/sources/aedes_elysiae.mp4" type="video/mp4">
