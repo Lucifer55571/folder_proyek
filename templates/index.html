@@ -37,46 +37,54 @@
 </head>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const video = document.getElementById("bg-video");
-
-const startOverlay = document.getElementById("start-overlay");
-const experience = document.getElementById("experience");
-
-startOverlay.addEventListener("click", async () => {
-    try {
-        await window.startMusic(); // audio start + fade-in volume
-
-        // 1. swipe overlay ke atas
-        startOverlay.classList.add("hide");
-
-        // 2. tunggu swipe SELESAI
-        setTimeout(() => {
-            experience.classList.add("show");
-        }, 1600); // SAMA dengan duration CSS swipe
-
-    } catch (e) {
-        console.warn("Audio blocked:", e);
-    }
-});
-
-        });
-
-</script>
-
-<script>
 window.addEventListener("load", () => {
     const preloader = document.getElementById("preloader");
     const startOverlay = document.getElementById("start-overlay");
     const video = document.getElementById("bg-video");
 
+    // fade out loading
     preloader.style.opacity = "0";
 
     setTimeout(() => {
         preloader.style.display = "none";
-        startOverlay.style.display = "flex"; // baru boleh klik
+        startOverlay.style.display = "flex"; // muncul click screen
         video.classList.add("loaded");
-    }, 600);
+    }, 700);
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const startOverlay = document.getElementById("start-overlay");
+    const experience = document.getElementById("experience");
+    const audio = document.getElementById("bg-music");
+
+    let started = false;
+
+    startOverlay.addEventListener("click", async () => {
+        if (started) return;
+        started = true;
+
+        /* === MUSIC (LEGAL AUTOPLAY) === */
+        audio.volume = 0;
+        await audio.play();
+
+        let vol = 0;
+        const fade = setInterval(() => {
+            vol += 0.02;
+            audio.volume = Math.min(vol, 1);
+            if (vol >= 1) clearInterval(fade);
+        }, 100);
+
+        /* === TIRAI NAIK === */
+        startOverlay.classList.add("hide");
+
+        /* === TUNGGU TIRAI SELESAI === */
+        setTimeout(() => {
+            experience.classList.add("show");
+        }, 1400);
+    });
 });
 </script>
 
@@ -110,50 +118,30 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggle = document.getElementById("musicToggle");
     const marqueeText = toggle.querySelector(".marquee-text");
 
-    let isPlaying = false;
-
     function updateUI() {
-        marqueeText.textContent = isPlaying
-            ? "⏸ PAUSE MUSIC — MOON HALO • HONKAI IMPACT 3RD •"
-            : "▶ PLAY MUSIC — MOON HALO • HONKAI IMPACT 3RD •";
-            marqueeText.style.animationPlayState = isPlaying ? "running" : "paused";
+        marqueeText.textContent = audio.paused
+            ? "▶ PLAY MUSIC — MOON HALO • HONKAI IMPACT 3RD •"
+            : "⏸ PAUSE MUSIC — MOON HALO • HONKAI IMPACT 3RD •";
 
+        marqueeText.style.animationPlayState = audio.paused
+            ? "paused"
+            : "running";
     }
 
-    // kontrol dari marquee
     toggle.addEventListener("click", async () => {
-        if (!isPlaying) {
-            try {
-                await window.startMusic();
-                isPlaying = true;
-            } catch (e) {
-                console.warn("Audio blocked:", e);
-            }
+        if (audio.paused) {
+            await audio.play();
         } else {
             audio.pause();
-            isPlaying = false;
         }
         updateUI();
     });
 
-let musicStarted = false;
-
-window.startMusic = async () => {
-    if (musicStarted) return;
-    musicStarted = true;
-
-    audio.volume = 0;
-    await audio.play();
-
-    let vol = 0;
-    const fade = setInterval(() => {
-        vol += 0.02;
-        audio.volume = Math.min(vol, 1);
-        if (vol >= 1) clearInterval(fade);
-    }, 100);
-};
-
+    audio.addEventListener("play", updateUI);
+    audio.addEventListener("pause", updateUI);
+});
 </script>
+
 
 
     <video autoplay muted loop playsinline id="bg-video">

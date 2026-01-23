@@ -357,6 +357,29 @@ h1 {
     margin-bottom: 15px;
 }
 
+.start-content {
+    text-align: center;
+    color: #ffc400;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 3px;
+    animation: pulse 2s infinite;
+}
+
+/* ===== EXPERIENCE STATE ===== */
+#experience {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+#experience.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* ===== START OVERLAY (TIRAI) ===== */
 #start-overlay {
     display: none;
     position: fixed;
@@ -369,27 +392,8 @@ h1 {
 
 #start-overlay.hide {
     transform: translateY(-100%);
-
 }
 
-.start-content {
-    text-align: center;
-    color: #ffc400;
-    font-family: 'Orbitron', sans-serif;
-    letter-spacing: 3px;
-    animation: pulse 2s infinite;
-}
-
-#experience {
-    opacity: 0;
-    transform: scale(1.02);
-    transition: opacity 1.2s ease, transform 1.2s ease;
-}
-
-#experience.show {
-    opacity: 1;
-    transform: scale(1);
-}
 
 @keyframes pulse {
     0%, 100% { opacity: 0.6; }
