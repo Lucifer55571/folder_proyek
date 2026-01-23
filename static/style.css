@@ -235,7 +235,7 @@ h1 {
 
 .sound-panel {
     position: fixed;
-    top: 20px;
+    bottom: 20px;
     right: 20px;
     display: flex;
     align-items: center;
@@ -292,7 +292,7 @@ h1 {
 
 #musicToggle {
     position: fixed;
-    bottom: 24px;
+    top: 24px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
