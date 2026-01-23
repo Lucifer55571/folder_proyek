@@ -111,8 +111,8 @@ def decrypt_logic(text, mode, enigma_p=None):
     return result
 
 # --- ROUTES ---
-@app.route('/')
-def index():
+@app.route("/")
+def home():
     return render_template('index.html', patterns=enigma_patterns)
 
 @app.route('/process', methods=['POST'])
