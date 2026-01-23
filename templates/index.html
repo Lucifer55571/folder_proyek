@@ -40,11 +40,18 @@
 document.addEventListener("DOMContentLoaded", () => {
     const video = document.getElementById("bg-video");
 
-    // Event ketika video siap diputar lancar
-    video.addEventListener("canplaythrough", () => {
-        video.classList.add("loaded");  // Trigger fade-in + blur hilang
-    });
-});
+    const startOverlay = document.getElementById("start-overlay");
+
+    startOverlay.addEventListener("click", async () => {
+        try {
+            await window.startMusic();       // user gesture ✔
+            startOverlay.classList.add("hide");
+        } catch (e) {
+            console.warn("Audio blocked:", e);
+        }
+            });
+        });
+
 </script>
 
 <script>
@@ -123,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // expose function supaya start-overlay bisa pakai
     window.startMusic = async () => {
         audio.volume = 0;
-        await window.startMusic();
+        await audio.play();
         isPlaying = true;
         updateUI();
 
