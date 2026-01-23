@@ -40,16 +40,26 @@
 document.addEventListener("DOMContentLoaded", () => {
     const video = document.getElementById("bg-video");
 
-    const startOverlay = document.getElementById("start-overlay");
+const startOverlay = document.getElementById("start-overlay");
+const experience = document.getElementById("experience");
 
-    startOverlay.addEventListener("click", async () => {
-        try {
-            await window.startMusic();       // user gesture ✔
-            startOverlay.classList.add("hide");
-        } catch (e) {
-            console.warn("Audio blocked:", e);
-        }
-            });
+startOverlay.addEventListener("click", async () => {
+    try {
+        await window.startMusic(); // audio start + fade-in volume
+
+        // 1. swipe overlay ke atas
+        startOverlay.classList.add("hide");
+
+        // 2. tunggu swipe SELESAI
+        setTimeout(() => {
+            experience.classList.add("show");
+        }, 1400); // SAMA dengan duration CSS swipe
+
+    } catch (e) {
+        console.warn("Audio blocked:", e);
+    }
+});
+
         });
 
 </script>

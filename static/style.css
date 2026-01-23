@@ -360,19 +360,15 @@ h1 {
 #start-overlay {
     position: fixed;
     inset: 0;
-    background: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9998;
-    cursor: pointer;
-    transition: transform 1s ease, opacity 1s ease;
+    background: black;
+    z-index: 999;
+    transform: translateY(0);
+    transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 #start-overlay.hide {
     transform: translateY(-100%);
-    opacity: 0;
-    pointer-events: none;
+
 }
 
 .start-content {
@@ -381,6 +377,17 @@ h1 {
     font-family: 'Orbitron', sans-serif;
     letter-spacing: 3px;
     animation: pulse 2s infinite;
+}
+
+#experience {
+    opacity: 0;
+    transform: scale(1.02);
+    transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+#experience.show {
+    opacity: 1;
+    transform: scale(1);
 }
 
 @keyframes pulse {
