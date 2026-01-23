@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", template_folder="templates")
 
 # --- DATA KRIPTOGRAFI (Dari Kode Anda) ---
 alphabet = "abcdefghijklmnopqrstuvwxyz1234567890-,.!@#$%^&*()=+?"
