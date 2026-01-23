@@ -212,12 +212,6 @@ h1 {
     transform: translateY(-12px);
 }
 
-.char-link:hover .character {
-    filter:
-        drop-shadow(0 10px 20px rgba(0,0,0,0.6))
-        drop-shadow(0 0 18px rgba(255, 244, 231, 0.85));
-}
-
 .kevin-box{
     top: 30%;
     left: 0%;
