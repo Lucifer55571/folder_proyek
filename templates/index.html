@@ -67,11 +67,16 @@ window.addEventListener("load", () => {
 <body>
 
 <div id="preloader">
-    <p class="hint">Klik di mana saja untuk memulai pengalaman</p>
     <div class="spinner"></div>
     <p class="FLAME-CHASERS CRYPTOGRAPHY"> Loading Flame-Chasers Cryptography...</p>
 </div>
 
+<div id="start-overlay">
+    <div class="start-content">
+        <h2>CLICK TO START EXPERIENCE</h2>
+        <p>Flame-Chasers Cryptography</p>
+    </div>
+</div>
 
 <audio id="bg-music" loop preload="auto">
     <source src="{{ url_for('static', filename='sources/Moon_Halo.mp3') }}" type="audio/mpeg">
@@ -84,50 +89,36 @@ window.addEventListener("load", () => {
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const audio = document.getElementById("bg-music");
-    const marquee = document.getElementById("musicToggle");
-    const text = marquee.querySelector(".marquee-text");
+window.addEventListener("load", () => {
     const preloader = document.getElementById("preloader");
+    const startOverlay = document.getElementById("start-overlay");
+    const audio = document.getElementById("bg-music");
+    const video = document.getElementById("bg-video");
 
-    let isPlaying = false;
+    // 1. Sembunyikan preloader dulu
+    preloader.style.opacity = "0";
+    setTimeout(() => preloader.style.display = "none", 600);
 
-    function startAudio() {
+    // 2. TUNGGU user klik "start experience"
+    startOverlay.addEventListener("click", async () => {
+        // gesture valid → audio AMAN
         audio.volume = 0;
-        audio.play().then(() => {
-            isPlaying = true;
-            text.textContent = "⏸ NOW PLAYING — MOON HALO • HONKAI IMPACT 3RD •";
+        await audio.play();
 
-            // fade-in volume 5 detik
-            let vol = 0;
-            const fade = setInterval(() => {
-                vol += 0.02;
-                audio.volume = Math.min(vol, 1);
-                if (vol >= 1) clearInterval(fade);
-            }, 100);
-        });
+        // fade-in audio 5 detik
+        let vol = 0;
+        const fade = setInterval(() => {
+            vol += 0.02;
+            audio.volume = Math.min(vol, 1);
+            if (vol >= 1) clearInterval(fade);
+        }, 100);
 
-        // lepas listener supaya gak double
-        document.removeEventListener("click", startAudio);
-    }
+        // swipe overlay ke atas
+        startOverlay.classList.add("hide");
 
-    // SATU gesture eksplisit
-    document.addEventListener("click", startAudio, { once: true });
-
-    // manual control tetap
-    marquee.addEventListener("click", () => {
-        if (!isPlaying) {
-            audio.play();
-            isPlaying = true;
-            text.textContent = "⏸ NOW PLAYING — MOON HALO • HONKAI IMPACT 3RD •";
-            
-        } else {
-            audio.pause();
-            isPlaying = false;
-            text.textContent = "▶ PLAY MUSIC — MOON HALO • HONKAI IMPACT 3RD •";
-
-        }
-    });
+        // munculkan video halus
+        video.classList.add("loaded");
+    }, { once: true });
 });
 </script>
 
