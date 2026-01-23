@@ -53,7 +53,7 @@ startOverlay.addEventListener("click", async () => {
         // 2. tunggu swipe SELESAI
         setTimeout(() => {
             experience.classList.add("show");
-        }, 1400); // SAMA dengan duration CSS swipe
+        }, 1600); // SAMA dengan duration CSS swipe
 
     } catch (e) {
         console.warn("Audio blocked:", e);
@@ -66,18 +66,17 @@ startOverlay.addEventListener("click", async () => {
 
 <script>
 window.addEventListener("load", () => {
-    // Tunggu semua elemen di page, termasuk video, gambar, audio
     const preloader = document.getElementById("preloader");
-    preloader.style.transition = "opacity 0.5s ease";
+    const startOverlay = document.getElementById("start-overlay");
+    const video = document.getElementById("bg-video");
+
     preloader.style.opacity = "0";
 
     setTimeout(() => {
-        preloader.style.display = "none"; // sembunyikan preloader
-    }, 500);
-
-    // Trigger fade-in video saat seluruh page siap
-    const video = document.getElementById("bg-video");
-    video.classList.add("loaded");
+        preloader.style.display = "none";
+        startOverlay.style.display = "flex"; // baru boleh klik
+        video.classList.add("loaded");
+    }, 600);
 });
 </script>
 
@@ -137,21 +136,23 @@ document.addEventListener("DOMContentLoaded", () => {
         updateUI();
     });
 
-    // expose function supaya start-overlay bisa pakai
-    window.startMusic = async () => {
-        audio.volume = 0;
-        await audio.play();
-        isPlaying = true;
-        updateUI();
+let musicStarted = false;
 
-        let vol = 0;
-        const fade = setInterval(() => {
-            vol += 0.02;
-            audio.volume = Math.min(vol, 1);
-            if (vol >= 1) clearInterval(fade);
-        }, 100);
-    };
-});
+window.startMusic = async () => {
+    if (musicStarted) return;
+    musicStarted = true;
+
+    audio.volume = 0;
+    await audio.play();
+
+    let vol = 0;
+    const fade = setInterval(() => {
+        vol += 0.02;
+        audio.volume = Math.min(vol, 1);
+        if (vol >= 1) clearInterval(fade);
+    }, 100);
+};
+
 </script>
 
 
@@ -159,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <source src="static/sources/aedes_elysiae.mp4" type="video/mp4">
     </video>
 
-    <div class="content py-5">
+    <div id="experience" class="content py-5">
 
     <a class="char-link kevin-box" target="_blank" href="https://honkaiimpact3.hoyoverse.com/asia/id-id/news/107292?source=v1">
         <img class="character kevin" src="{{ url_for('static', filename='sources/Kevin_Kaslana.webp') }}">
