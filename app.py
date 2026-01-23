@@ -113,22 +113,17 @@ def decrypt_logic(text, mode, enigma_p=None):
 # --- ROUTES ---
 @app.route("/")
 def home():
-    return render_template('index.html', patterns=enigma_patterns)
+    return render_template("index.html", patterns=enigma_patterns)
 
-@app.route('/process', methods=['POST'])
+@app.route("/process", methods=["POST"])
 def process():
     data = request.json
-    action = data.get('action') # 'encrypt' or 'decrypt'
-    mode = data.get('mode')
-    text = data.get('text')
-    enigma_p = data.get('enigma_p')
-
-    if action == 'encrypt':
+    action = data.get("action")
+    mode = data.get("mode")
+    text = data.get("text")
+    enigma_p = data.get("enigma_p")
+    if action == "encrypt":
         res = encrypt_logic(text, mode, enigma_p)
     else:
         res = decrypt_logic(text, mode, enigma_p)
-    
-    return jsonify({'result': res})
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    return jsonify({"result": res})
