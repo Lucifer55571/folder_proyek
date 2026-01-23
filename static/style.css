@@ -334,6 +334,35 @@ h1 {
     filter: blur(0);            /* Blur hilang */
 }
 
+#preloader {
+    position: fixed;
+    inset: 0; /* top:0; left:0; bottom:0; right:0; */
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+    color: #ffc400;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.spinner {
+    border: 5px solid rgba(255, 255, 255, 0.2);
+    border-top: 5px solid #ffc400;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
 
 @keyframes fadeSlideIn {
     from {

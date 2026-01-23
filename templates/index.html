@@ -46,7 +46,31 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+<script>
+window.addEventListener("load", () => {
+    // Tunggu semua elemen di page, termasuk video, gambar, audio
+    const preloader = document.getElementById("preloader");
+    preloader.style.transition = "opacity 0.5s ease";
+    preloader.style.opacity = "0";
+
+    setTimeout(() => {
+        preloader.style.display = "none"; // sembunyikan preloader
+    }, 500);
+
+    // Trigger fade-in video saat seluruh page siap
+    const video = document.getElementById("bg-video");
+    video.classList.add("loaded");
+});
+</script>
+
+
 <body>
+
+<div id="preloader">
+    <div class="spinner"></div>
+    <p>Loading Flame-Chasers Cryptography...</p>
+</div>
+
 
 <audio id="bg-music" loop preload="auto">
     <source src="{{ url_for('static', filename='sources/Moon_Halo.mp3') }}" type="audio/mpeg">
