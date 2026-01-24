@@ -375,8 +375,10 @@ h1 {
 
 /* ===== EXPERIENCE STATE ===== */
 #experience {
+    position:fixed;
+    inset:0;
     opacity: 0;
-    transform: translateY(100vh);
+    transform: translateY(40px);
     pointer-events: none;
     transition: transform 1.4s ease, opacity 1.2s ease;
 }
@@ -389,6 +391,7 @@ h1 {
 
 /* ===== START OVERLAY (TIRAI) ===== */
 #start-overlay {
+    cursor: pointer;
     display: flex;
     position: fixed;
     inset: 0;
